@@ -37,7 +37,7 @@ var {
   NativeModules: {
     WebViewBridgeManager
   }
-} = React;
+} = ReactNative;
 
 var RCT_WEBVIEWBRIDGE_REF = 'webviewbridge';
 
