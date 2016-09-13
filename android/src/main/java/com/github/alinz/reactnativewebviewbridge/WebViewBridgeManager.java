@@ -64,18 +64,28 @@ public class WebViewBridgeManager extends ReactWebViewManager {
     super.onDropViewInstance(root);
   }
   private void injectBridgeScript(WebView root) {
-    //this code needs to be executed everytime a url changes.
-    root.evaluateJavascript(""
-    + "(function() {"
-        + "if (window.WebViewBridge) return;"
-        + "var customEvent = document.createEvent('Event');"
-        + "var WebViewBridge = {"
-            + "send: function(message) { WebViewBridgeAndroid.send(message); },"
-            + "onMessage: function() {}"
-        + "};"
-        + "window.WebViewBridge = WebViewBridge;"
-        + "customEvent.initEvent('WebViewBridge', true, true);"
-        + "document.dispatchEvent(customEvent);"
-    +"}());", null);
-  }
+      //this code needs to be executed everytime a url changes.
+      root.evaluateJavascript(""
+      + "(function() {"
+          + "if (!window.WebViewBridge) {"
+            + "var customEvent = document.createEvent('Event');"
+            + "var WebViewBridge = {"
+                + "send: function(message) { WebViewBridgeAndroid.send(message); },"
+                + "onMessage: function() {}"
+            + "};"
+            + "window.WebViewBridge = WebViewBridge;"
+            + "customEvent.initEvent('WebViewBridge', true, true);"
+            + "document.dispatchEvent(customEvent);"
+          + "}"
+          + "var send = function() {"
+            + "window.WebViewBridge.send('' + document.body.clientHeight);"
+          + "};"
+          + "window.addEventListener('load', send);"
+          + "window.WebViewBridge.onMessage = function (message) {"
+            + "if (message === 'check-content') {"
+              + "send();"
+            + "}"
+          + "};"
+      +"}());", null);
+    }
 }
