@@ -101,7 +101,7 @@ var WebViewBridge = React.createClass({
 
   propTypes: {
     ...WebView.propTypes,
-
+    messagingEnabled: PropTypes.bool,
     /**
      * Will be called once the message is being sent from webview
      */
