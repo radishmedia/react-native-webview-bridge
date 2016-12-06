@@ -86,6 +86,7 @@ public class WebViewBridgeManager extends ReactWebViewManager {
             + "window.WebViewBridge.send('' + document.body.clientHeight);"
           + "};"
           + "window.addEventListener('load', send);"
+          + "window.addEventListener('resize', send);"
           + "window.WebViewBridge.onMessage = function (message) {"
             + "if (message === 'check-content') {"
               + "send();"
